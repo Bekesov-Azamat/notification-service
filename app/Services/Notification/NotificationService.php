@@ -48,7 +48,12 @@ class NotificationService
                         'status' => NotificationStatus::QUEUED->value,
                     ]);
 
-                SendNotificationJob::dispatch($notification->id);
+                $queueName = $dto->priority === 'high'
+                    ? 'notifications_high'
+                    : 'notifications_default';
+
+                SendNotificationJob::dispatch($notification->id)
+                    ->onQueue($queueName);
             }
 
             return $batch;

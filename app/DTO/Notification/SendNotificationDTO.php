@@ -19,7 +19,16 @@ class SendNotificationDTO
             message: $data['message'],
             priority: $data['priority'],
             recipients: $data['recipients'],
-            idempotencyKey: $data['idempotency_key'] ?? null,
+            idempotencyKey: $data['idempotency_key'] ?? self::makeKey($data),
         );
+    }
+    private static function makeKey(array $data): string
+    {
+        return hash('sha256', json_encode([
+            'channel' => $data['channel'],
+            'message' => $data['message'],
+            'priority' => $data['priority'],
+            'recipients' => $data['recipients'],
+        ]));
     }
 }
