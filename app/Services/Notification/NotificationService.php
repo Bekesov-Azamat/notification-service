@@ -2,6 +2,7 @@
 
 namespace App\Services\Notification;
 
+use App\Jobs\SendNotificationJob;
 use App\DTO\Notification\SendNotificationDTO;
 use App\Enums\NotificationStatus;
 use App\Models\NotificationBatch;
@@ -24,16 +25,19 @@ class NotificationService
                 'idempotency_key' => $dto->idempotencyKey,
                 'total_count' => count($dto->recipients),
             ]);
-
             foreach ($dto->recipients as $recipient) {
-                $this->notificationRepository->createNotification([
-                    'notification_batch_id' => $batch->id,
-                    'channel' => $dto->channel,
-                    'recipient' => $recipient,
-                    'message' => $dto->message,
-                    'priority' => $dto->priority,
-                    'status' => NotificationStatus::QUEUED->value,
-                ]);
+
+                $notification = $this->notificationRepository
+                    ->createNotification([
+                        'notification_batch_id' => $batch->id,
+                        'channel' => $dto->channel,
+                        'recipient' => $recipient,
+                        'message' => $dto->message,
+                        'priority' => $dto->priority,
+                        'status' => NotificationStatus::QUEUED->value,
+                    ]);
+
+                SendNotificationJob::dispatch($notification->id);
             }
 
             return $batch;
