@@ -1,66 +1,358 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Notification Service
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Сервис уведомлений на Laravel с асинхронной обработкой очередей через RabbitMQ.
 
-## About Laravel
+Проект реализован как отдельный Notification Service с поддержкой Email и SMS уведомлений, очередей, retry-механизма, Redis idempotency и PostgreSQL.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Стек проекта
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.1
+- Laravel 10
+- PostgreSQL 15
+- Redis 7
+- RabbitMQ 3 Management
+- Docker / Docker Compose
+- Postman
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Основной функционал
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Массовая отправка Email/SMS уведомлений
+- Асинхронная обработка уведомлений
+- RabbitMQ очереди
+- Retry механизм
+- Redis idempotency защита
+- Очереди приоритетов
+- Batch уведомления
+- Feature тесты
+- Docker инфраструктура
+- Postman collection
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+# Архитектура проекта
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```text
+API Request
+    ↓
+FormRequest Validation
+    ↓
+DTO
+    ↓
+NotificationService
+    ↓
+Repository
+    ↓
+PostgreSQL
+    ↓
+RabbitMQ Queue
+    ↓
+Queue Worker
+    ↓
+Mock Provider
+    ↓
+Обновление статуса
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+Слои проекта
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Controller
+FormRequest
+DTO
+Service
+Repository
+Job
+Provider Interface
+Mock Providers
+Status Service
+Redis Idempotency Service
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+Статусы уведомлений
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+queued
+sent
+delivered
+failed
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+Запуск проекта
+
+1. Клонирование репозитория
+
+git clone <repository-url>
+cd notification-service
+
+
+---
+
+2. Создание .env
+
+cp .env.example .env
+
+
+---
+
+3. Запуск Docker контейнеров
+
+docker compose up -d --build
+
+
+---
+
+4. Вход в контейнер приложения
+
+docker exec -it notification_app bash
+
+
+---
+
+5. Установка зависимостей
+
+composer install
+
+
+---
+
+6. Генерация APP_KEY
+
+php artisan key:generate
+
+
+---
+
+7. Выполнение миграций
+
+php artisan migrate
+
+
+---
+
+Docker сервисы
+
+Сервис	Порт
+
+Laravel / Nginx	8001
+PostgreSQL	5433
+Redis	6379
+RabbitMQ	5672
+RabbitMQ UI	15672
+
+
+
+---
+
+RabbitMQ Management UI
+
+http://localhost:15672
+
+Данные для входа:
+
+guest / guest
+
+
+---
+
+Запуск Queue Worker
+
+php artisan queue:work rabbitmq --queue=notifications_high,notifications_default -v
+
+
+---
+
+Очереди приоритетов
+
+High priority:
+
+notifications_high
+
+Normal priority:
+
+notifications_default
+
+
+---
+
+API Endpoints
+
+
+---
+
+Создание уведомлений
+
+POST /api/v1/notifications
+
+Пример запроса
+
+{
+  "channel": "email",
+  "message": "Hello from API",
+  "priority": "high",
+  "recipients": [
+    "john@gmail.com",
+    "kate@gmail.com"
+  ],
+  "idempotency_key": "unique-request-key"
+}
+
+
+---
+
+Пример ответа
+
+{
+  "success": true,
+  "message": "Notifications queued successfully",
+  "batch_id": 1
+}
+
+
+---
+
+Получение уведомления по ID
+
+GET /api/v1/notifications/{id}
+
+
+---
+
+Получение уведомлений пользователя
+
+GET /api/v1/recipients/{recipient}/notifications
+
+
+---
+
+Idempotency защита
+
+Redis используется для защиты от дублирующих запросов.
+
+Если одинаковый idempotency_key отправляется повторно:
+
+409 Conflict
+
+
+---
+
+Retry механизм
+
+Jobs автоматически повторяются при временных ошибках провайдера.
+
+После превышения количества попыток:
+
+status = failed
+
+Текст ошибки сохраняется в:
+
+last_error
+
+
+---
+
+Mock Providers
+
+Вместо реальных внешних сервисов используются mock providers:
+
+MockEmailProvider
+MockSmsProvider
+
+Они имитируют:
+
+успешную отправку
+
+временные ошибки
+
+задержку сети
+
+
+
+---
+
+Тестирование
+
+Запуск тестов:
+
+php artisan test
+
+
+---
+
+Покрытие тестами
+
+Проверяются:
+
+создание уведомлений
+
+validation
+
+duplicate requests
+
+queue dispatch
+
+routes
+
+status lifecycle
+
+
+
+---
+
+Postman Collection
+
+Файл коллекции:
+
+docs/NotificationService.postman_collection.json
+
+Коллекцию можно импортировать в Postman для ручного тестирования API.
+
+
+---
+
+Надежность сервиса
+
+В проекте используются:
+
+PostgreSQL transactions
+
+RabbitMQ очереди
+
+Redis deduplication
+
+Retry механизм Laravel Queue
+
+Failed Jobs handling
+
+Статусы доставки уведомлений
+
+
+
+---
+
+Архитектурное решение
+
+Проект реализован как монолитный Laravel сервис, но структура разделена по слоям и приближена к microservice-style архитектуре.
+
+Основная цель проекта:
+
+показать работу с очередями
+
+асинхронную обработку
+
+Docker инфраструктуру
+
+RabbitMQ
+
+Redis
+
+надежность доставки уведомлений
+
+тестирование backend системы
