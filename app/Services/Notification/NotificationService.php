@@ -8,15 +8,26 @@ use App\Enums\NotificationStatus;
 use App\Models\NotificationBatch;
 use App\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\DB;
+use App\Services\Redis\IdempotencyService;
 
 class NotificationService
 {
     public function __construct(
         protected NotificationRepository $notificationRepository,
+        protected IdempotencyService $idempotencyService,
     ) {}
 
     public function send(SendNotificationDTO $dto): NotificationBatch
     {
+        if (
+            $this->idempotencyService
+            ->exists($dto->idempotencyKey)
+        ) {
+            abort(409, 'Duplicate request');
+        }
+
+        $this->idempotencyService
+            ->store($dto->idempotencyKey);
         return DB::transaction(function () use ($dto) {
             $batch = $this->notificationRepository->createBatch([
                 'channel' => $dto->channel,
