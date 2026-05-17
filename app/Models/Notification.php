@@ -7,9 +7,11 @@ use App\Enums\NotificationPriority;
 use App\Enums\NotificationStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Notification extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'notification_batch_id',
         'channel',

@@ -6,9 +6,11 @@ use App\Enums\NotificationChannel;
 use App\Enums\NotificationPriority;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class NotificationBatch extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'channel',
         'message',
