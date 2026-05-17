@@ -1,0 +1,394 @@
+{
+  "info": {
+    "_postman_id": "c52ad1eb-4742-4c87-b5b0-dc97c606e3cc",
+    "name": "Notification Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54932614",
+    "_collection_link": "https://go.postman.co/collection/54932614-c52ad1eb-4742-4c87-b5b0-dc97c606e3cc?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"channel\": \"email\",\n  \"message\": \"Hello from Postman\",\n  \"priority\": \"high\",\n  \"recipients\": [\n    \"john@gmail.com\",\n    \"kate@gmail.com\"\n  ],\n  \"idempotency_key\": \"postman-create-1\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8001/api/v1/notifications",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "api",
+            "v1",
+            "notifications"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "POST Create Notification",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"email\",\n  \"message\": \"Hello from Postman\",\n  \"priority\": \"high\",\n  \"recipients\": [\n    \"john@gmail.com\",\n    \"kate@gmail.com\"\n  ],\n  \"idempotency_key\": \"postman-create-1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8001/api/v1/notifications",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8001",
+              "path": [
+                "api",
+                "v1",
+                "notifications"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Server",
+              "value": "nginx/1.31.0"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.1.34"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 May 2026 20:38:19 GMT"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "60"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "59"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Notifications queued successfully\",\n    \"batch_id\": 4\n}"
+        },
+        {
+          "name": "GET Get Notification By id",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8001/api/v1/notifications/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8001",
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                "4"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Server",
+              "value": "nginx/1.31.0"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.1.34"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 May 2026 20:47:17 GMT"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "60"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "59"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 4,\n    \"notification_batch_id\": 4,\n    \"channel\": \"email\",\n    \"recipient\": \"john@gmail.com\",\n    \"message\": \"Hello from Postman\",\n    \"priority\": \"high\",\n    \"status\": \"queued\",\n    \"attempts_count\": 0,\n    \"last_error\": null,\n    \"sent_at\": null,\n    \"delivered_at\": null,\n    \"failed_at\": null,\n    \"created_at\": \"2026-05-17T20:38:19.000000Z\",\n    \"updated_at\": \"2026-05-17T20:38:19.000000Z\",\n    \"batch\": {\n        \"id\": 4,\n        \"channel\": \"email\",\n        \"message\": \"Hello from Postman\",\n        \"priority\": \"high\",\n        \"idempotency_key\": \"postman-create-1\",\n        \"total_count\": 2,\n        \"created_at\": \"2026-05-17T20:38:19.000000Z\",\n        \"updated_at\": \"2026-05-17T20:38:19.000000Z\"\n    }\n}"
+        },
+        {
+          "name": "GET Get Reciplent Notifications",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8001/api/v1/recipients/john@gmail.com/notifications",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8001",
+              "path": [
+                "api",
+                "v1",
+                "recipients",
+                "john@gmail.com",
+                "notifications"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Server",
+              "value": "nginx/1.31.0"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.1.34"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 May 2026 20:42:33 GMT"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "60"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "59"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"notification_batch_id\": 4,\n        \"channel\": \"email\",\n        \"recipient\": \"john@gmail.com\",\n        \"message\": \"Hello from Postman\",\n        \"priority\": \"high\",\n        \"status\": \"queued\",\n        \"attempts_count\": 0,\n        \"last_error\": null,\n        \"sent_at\": null,\n        \"delivered_at\": null,\n        \"failed_at\": null,\n        \"created_at\": \"2026-05-17T20:38:19.000000Z\",\n        \"updated_at\": \"2026-05-17T20:38:19.000000Z\"\n    }\n]"
+        },
+        {
+          "name": "POST Duplicate Request",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"email\",\n  \"message\": \"Duplicate request test\",\n  \"priority\": \"high\",\n  \"recipients\": [\n    \"duplicate@gmail.com\"\n  ],\n  \"idempotency_key\": \"postman-duplicate-1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8001/api/v1/notifications",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8001",
+              "path": [
+                "api",
+                "v1",
+                "notifications"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Server",
+              "value": "nginx/1.31.0"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.1.34"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 May 2026 20:44:20 GMT"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "60"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "59"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Notifications queued successfully\",\n    \"batch_id\": 5\n}"
+        }
+      ]
+    }
+  ]
+}
